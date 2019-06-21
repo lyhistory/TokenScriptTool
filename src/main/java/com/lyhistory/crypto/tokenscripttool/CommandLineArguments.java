@@ -88,6 +88,7 @@ public class CommandLineArguments {
 			validateArgs();
 		} catch (final ParameterException e) {
 			System.out.println(e.getMessage());
+			this.isValidateArgs=false;
 		}
 	}
 }

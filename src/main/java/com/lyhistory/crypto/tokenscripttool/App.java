@@ -1,14 +1,11 @@
 package com.lyhistory.crypto.tokenscripttool;
 
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.PublicKey;
 import java.security.Security;
 import java.security.interfaces.ECPublicKey;
-import java.security.spec.ECPublicKeySpec;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 
@@ -25,18 +22,12 @@ import org.bouncycastle.math.ec.ECPoint;
 import org.bouncycastle.util.encoders.Hex;
 import org.ethereum.crypto.HashUtil;
 
-import org.web3j.crypto.Hash;
-
-/**
- * Hello world!
- *
- */
 public class App {
 	static X9ECParameters CURVE_PARAMS = CustomNamedCurves.getByName("secp256k1");
 	static ECDomainParameters CURVE = new ECDomainParameters(CURVE_PARAMS.getCurve(), CURVE_PARAMS.getG(),
 			CURVE_PARAMS.getN(), CURVE_PARAMS.getH());
 
-	static String PUBKEYHEX = "04856747172fcad0f0defbc8ebef218624964791e8431115fd09e74c35cfa2b9111c15511e7c6a2ca10916e97a0befd197de9800b71cb44a96fc5e0ccae0fcd0dd";
+	static String PUBKEYHEX = "04f0985bd9dbb6f461adc994a0c12595716a7f4fb2879bfc5155dffec3770096201c13f8314b46db8d8177887f8d95af1f2dd217291ce6ffe9183681186696bbe5";
 	// digest string: RmBmS7FQym2z1x+PGHPbm6bFNXFvoKs5lAskqo2w7Oc=
 	// digest base64 encode hex:
 	// 4660664bb150ca6db3d71f8f1873db9ba6c535716fa0ab39940b24aa8db0ece7
