@@ -16,11 +16,13 @@
 	</properties>
 
 	<repositories>
-
 		<repository>
-			<id>ethereum</id>
-			<url>http://dl.bintray.com/ethereum/maven</url>
+			<id>sonatype-snasphots</id>
+			<name>Sonatype snapshots repo</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</repository>
+		<!-- <repository> <id>ethereum</id> <url>http://dl.bintray.com/ethereum/maven</url> 
+			</repository> -->
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -52,29 +54,142 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.web3j</groupId>
-				<artifactId>web3j-maven-plugin</artifactId>
-				<version>4.2.0</version>
-				<configuration>
-					<soliditySourceFiles />
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<mainClass>com.lyhistory.crypto.tokenscripttool.App</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
+	<profiles>
+		<profile>
+			<id>fatjar</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<repositories>
+				<repository>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+					<id>central</id>
+					<name>bintray</name>
+					<url>http://jcenter.bintray.com</url>
+				</repository>
+				<repository>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+					<id>bintray</id>
+					<name>ethereumj</name>
+					<url>https://dl.bintray.com/ethereum/maven/</url>
+				</repository>
+			</repositories>
+			<pluginRepositories>
+				<pluginRepository>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+					<id>central</id>
+					<name>bintray-plugins</name>
+					<url>http://jcenter.bintray.com</url>
+				</pluginRepository>
+			</pluginRepositories>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>com.lyhistory.crypto.tokenscripttool.App</mainClass>
+								</manifest>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+						</configuration>
+						<executions>
+							<execution>
+								<id>make-assembly</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.web3j</groupId>
+						<artifactId>web3j-maven-plugin</artifactId>
+						<version>4.2.0</version>
+						<configuration>
+							<soliditySourceFiles />
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>release</id>
+			<repositories>
+				<repository>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+					<id>central</id>
+					<name>bintray</name>
+					<url>http://jcenter.bintray.com</url>
+				</repository>
+				<repository>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+					<id>bintray</id>
+					<name>ethereumj</name>
+					<url>https://dl.bintray.com/ethereum/maven/</url>
+				</repository>
+			</repositories>
+			<pluginRepositories>
+				<pluginRepository>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+					<id>central</id>
+					<name>bintray-plugins</name>
+					<url>http://jcenter.bintray.com</url>
+				</pluginRepository>
+			</pluginRepositories>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<configuration>
+							<descriptors>
+								<descriptor>src/main/assembly/bin.xml</descriptor>
+							</descriptors>
+							<archive>
+								<manifest>
+									<mainClass>com.lyhistory.crypto.tokenscripttool.App</mainClass>
+								</manifest>
+							</archive>
+						</configuration>
+						<executions>
+							<execution>
+								<id>create-archive</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.web3j</groupId>
+						<artifactId>web3j-maven-plugin</artifactId>
+						<version>4.2.0</version>
+						<configuration>
+							<soliditySourceFiles />
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
-		</plugins>
-	</build>
 </project>
